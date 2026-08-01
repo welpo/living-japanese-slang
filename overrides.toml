@@ -1,0 +1,16 @@
+# This file is the complete editorial layer applied after deterministic parsing.
+# Every override needs a source-grounded reason. No generated content is accepted here.
+
+[entries."キメる".meaning_recovery]
+from_field = "example"
+index = 0
+reason = "The live capsule labels the concise gloss as Example instead of Meaning."
+
+[entries."キメる".source]
+post_id = 21323
+fragment = "Rariru"
+reason = "The capsule incorrectly links to ゴチミヤ; キメる is discussed in the November 2025 らりる section."
+
+[entries."シュバる".inflection]
+rules = ["v5"]
+reason = "The source example シュバってきた demonstrates godan conjugation."

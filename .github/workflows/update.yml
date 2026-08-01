@@ -1,0 +1,90 @@
+name: Update dictionary
+
+on:
+  schedule:
+    - cron: "17 4 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: living-japanese-slang-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Install uv and Python
+        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
+        with:
+          enable-cache: true
+          python-version: "3.12"
+
+      - run: uv sync --frozen
+      - run: uv run ruff format --check .
+      - run: uv run ruff check .
+      - run: uv run ty check
+      - run: uv run pytest
+
+      - name: Build from live source
+        id: build
+        run: |
+          uv run ljs-update
+          echo "changed=$(jq -r .changed dist/build-summary.json)" >> "$GITHUB_OUTPUT"
+          echo "date=$(jq -r .build_date dist/build-summary.json)" >> "$GITHUB_OUTPUT"
+          echo "version=$(jq -r .version dist/build-summary.json)" >> "$GITHUB_OUTPUT"
+          echo "archive=$(jq -r .archive dist/build-summary.json)" >> "$GITHUB_OUTPUT"
+
+      - name: Check out pinned Yomitan validator
+        if: steps.build.outputs.changed == 'true'
+        uses: actions/checkout@v7
+        with:
+          repository: yomidevs/yomitan
+          ref: c0c3702963c22e0f39fdd2f03deef6b15558a7f5
+          path: .vendor/yomitan
+
+      - name: Validate with Yomitan
+        if: steps.build.outputs.changed == 'true'
+        working-directory: .vendor/yomitan
+        run: |
+          npm ci
+          node dev/bin/dictionary-validate.js "../../dist/${{ steps.build.outputs.archive }}"
+
+      - name: Advance accepted state
+        if: steps.build.outputs.changed == 'true'
+        run: |
+          cp dist/next-current-entries.json data/current-entries.json
+          cp dist/next-state.json data/state.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/current-entries.json data/state.json
+          git commit -m "Update dictionary ${{ steps.build.outputs.date }}"
+          git push
+
+      - name: Publish release
+        if: steps.build.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_DATE: ${{ steps.build.outputs.date }}
+          RELEASE_VERSION: ${{ steps.build.outputs.version }}
+        run: |
+          git tag -a "$RELEASE_VERSION" -m "Living Japanese Slang $RELEASE_VERSION"
+          git push origin "$RELEASE_VERSION"
+          gh release create "$RELEASE_VERSION" \
+            "dist/${{ steps.build.outputs.archive }}" \
+            dist/report.html \
+            dist/release-notes.md \
+            dist/change-report.json \
+            dist/evidence-sections.json \
+            dist/source-inventory.json \
+            "dist/source-snapshots-${RELEASE_DATE}.zip" \
+            dist/SHA256SUMS \
+            --verify-tag \
+            --title "Living Japanese Slang $RELEASE_VERSION" \
+            --notes-file dist/release-notes.md

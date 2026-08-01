@@ -1,0 +1,40 @@
+[project]
+name = "living-japanese-slang"
+version = "0.1.0"
+description = "Deterministic, source-grounded Yomitan dictionary updater for Scripting Japan's Living Japanese Slang Dictionary"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "GPL-3.0-or-later"
+dependencies = [
+    "beautifulsoup4>=4.13,<5",
+    "httpx>=0.28,<1",
+]
+
+[project.scripts]
+ljs-update = "living_japanese_slang.cli:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4,<9",
+    "ruff>=0.12,<1",
+    "ty>=0.0.40,<0.1",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.ruff.lint.per-file-ignores]
+"src/living_japanese_slang/parser.py" = ["RUF001"]
+"src/living_japanese_slang/report.py" = ["E501"]
+"tests/test_parser.py" = ["E501", "RUF001"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
