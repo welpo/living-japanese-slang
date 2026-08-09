@@ -1,0 +1,347 @@
+# This file is the complete editorial layer applied after deterministic parsing.
+# Every override needs a source-grounded reason. No generated content is accepted here.
+
+[entries."キメる".meaning_recovery]
+from_field = "example"
+index = 0
+reason = "The live capsule labels the concise gloss as Example instead of Meaning."
+
+[entries."キメる".source]
+post_id = 21323
+fragment = "Rariru"
+reason = "The capsule incorrectly links to ゴチミヤ; キメる is discussed in the November 2025 らりる section."
+
+[entries."シュバる".inflection]
+rules = ["v5"]
+reason = "The source example シュバってきた demonstrates godan conjugation."
+
+# Yomitan accepts one expression and one reading per term row. These capsules list alternatives
+# in one heading, so each source-listed form is emitted as a searchable headword sharing one entry.
+
+[entries."AIる".headword]
+forms = [
+  { expression = "AIる", reading = "あいる" },
+  { expression = "AIる", reading = "えーあいる" },
+  { expression = "AIる", reading = "えいる" },
+]
+reason = "The capsule lists three alternative readings."
+
+[entries."BBA".headword]
+forms = [
+  { expression = "BBA", reading = "ばばあ" },
+  { expression = "BBA", reading = "ビービーエー" },
+]
+reason = "The capsule lists two alternative readings."
+
+[entries."DQN".headword]
+forms = [
+  { expression = "DQN", reading = "ドキュン" },
+  { expression = "DQN", reading = "でぃーきゅーえん" },
+]
+reason = "The capsule lists two alternative readings."
+
+[entries."GKBR".headword]
+forms = [
+  { expression = "GKBR", reading = "ガクブル" },
+  { expression = "GKBR", reading = "ゴキブリ" },
+]
+reason = "The capsule lists two alternative readings."
+
+[entries."GRWM".headword]
+forms = [
+  { expression = "GRWM", reading = "ジーアルダブリューエム" },
+  { expression = "GRWM", reading = "ゲットレディーウィスミー" },
+]
+reason = "The capsule lists an initialism reading and an expanded reading."
+
+[entries."KPする".headword]
+forms = [
+  { expression = "KPする", reading = "けーぴー" },
+  { expression = "KPする", reading = "かんぱい" },
+]
+reason = "The capsule lists two alternative readings."
+
+[entries."KSK".headword]
+forms = [
+  { expression = "KSK", reading = "かそく" },
+  { expression = "KSK", reading = "ケーエスケー" },
+]
+reason = "The word 'or' in the capsule heading separates readings and is not part of either reading."
+
+[entries."LJC".headword]
+forms = [
+  { expression = "LJC", reading = "エルジェーシー" },
+  { expression = "LJC", reading = "ラストじょしこうせい" },
+]
+reason = "The capsule lists an initialism reading and an expanded reading."
+
+[entries."らりる".headword]
+forms = [
+  { expression = "らりる", reading = "" },
+  { expression = "ラリる", reading = "" },
+]
+reason = "The parenthetical lists ラリる as an alternative spelling, not as the reading of らりる."
+
+[entries."NNT".headword]
+forms = [
+  { expression = "NNT", reading = "ないないてい" },
+  { expression = "NNT", reading = "エヌエヌティ" },
+]
+reason = "The word 'or' in the capsule heading separates readings and is not part of either reading."
+
+[entries."アッシー or アッシーくん".headword]
+forms = [
+  { expression = "アッシー", reading = "" },
+  { expression = "アッシーくん", reading = "" },
+]
+reason = "The word 'or' separates two source-listed headwords."
+
+[entries."うぷ乙 or うp乙".headword]
+forms = [
+  { expression = "うぷ乙", reading = "うぷおつ" },
+  { expression = "うp乙", reading = "うぷおつ" },
+]
+reason = "The capsule lists two spellings; 'both' describes them and is not part of the reading."
+
+[entries."うpろだ or うぷろだ".headword]
+forms = [
+  { expression = "うpろだ", reading = "うぷろだ" },
+  { expression = "うぷろだ", reading = "うぷろだ" },
+]
+reason = "The capsule lists two spellings; 'both' describes them and is not part of the reading."
+
+[entries."おぢアタック・おじアタック".headword]
+forms = [
+  { expression = "おぢアタック", reading = "" },
+  { expression = "おじアタック", reading = "" },
+]
+reason = "The middle dot separates two source-listed spellings."
+
+[entries."鍵開け・鍵閉め".headword]
+forms = [
+  { expression = "鍵開け", reading = "かぎあけ" },
+  { expression = "鍵閉め", reading = "かぎしめ" },
+]
+reason = "The middle dots align two source-listed headwords with their readings."
+
+[entries."しんどw/しんどい".headword]
+forms = [
+  { expression = "しんどw", reading = "" },
+  { expression = "しんどい", reading = "" },
+]
+reason = "The slash separates two source-listed forms."
+
+[entries."じわる・ジワる".headword]
+forms = [
+  { expression = "じわる", reading = "" },
+  { expression = "ジワる", reading = "" },
+]
+reason = "The middle dot separates two source-listed spellings."
+
+[entries."責任転換".headword]
+forms = [
+  { expression = "責任転換", reading = "せきにんてんかん" },
+  { expression = "責任転換", reading = "せきにんてんか" },
+]
+reason = "The capsule lists two alternative readings."
+
+[entries."チルする・チルる".headword]
+forms = [
+  { expression = "チルする", reading = "" },
+  { expression = "チルる", reading = "" },
+]
+reason = "The middle dot separates two source-listed forms."
+
+[entries."チョリーッス or チョリッス".headword]
+forms = [
+  { expression = "チョリーッス", reading = "" },
+  { expression = "チョリッス", reading = "" },
+]
+reason = "The word 'or' separates two source-listed forms."
+
+[entries."チン凸・マン凸・パイ凸".headword]
+forms = [
+  { expression = "チン凸", reading = "ちんとつ" },
+  { expression = "マン凸", reading = "まんとつ" },
+  { expression = "パイ凸", reading = "ぱいとつ" },
+]
+reason = "The middle dots align three source-listed headwords with their readings."
+
+[entries."詰む・詰んだ".headword]
+forms = [
+  { expression = "詰む", reading = "つむ" },
+  { expression = "詰んだ", reading = "つんだ" },
+]
+reason = "The middle dot separates two inflected source-listed forms."
+
+[entries."~てり・~てりゅ".headword]
+forms = [
+  { expression = "~てり", reading = "" },
+  { expression = "~てりゅ", reading = "" },
+]
+reason = "The middle dot separates two source-listed suffix forms."
+
+[entries."溺愛 or 溺愛系".headword]
+forms = [
+  { expression = "溺愛", reading = "できあい" },
+  { expression = "溺愛系", reading = "できあいけい" },
+]
+reason = "The word 'or' separates the base term and its source-listed derived form."
+
+[entries."投げ銭".headword]
+forms = [
+  { expression = "投げ銭", reading = "なげせん" },
+  { expression = "投げ銭", reading = "なげぜに" },
+]
+reason = "The capsule lists two alternative readings."
+
+[entries."[Xは]飲みもの・飲める[X]".headword]
+forms = [
+  { expression = "[Xは]飲みもの", reading = "のみもの" },
+  { expression = "飲める[X]", reading = "のめる" },
+]
+reason = "The middle dots align two source-listed templates with their readings."
+
+[entries."バ嫌".headword]
+forms = [
+  { expression = "バ嫌", reading = "ばいや" },
+  { expression = "バ嫌", reading = "ばけん" },
+]
+reason = "The capsule lists two alternative readings."
+
+[entries."ほかてら・ほかいま・ほかえり・ほかあり".headword]
+forms = [
+  { expression = "ほかてら", reading = "" },
+  { expression = "ほかいま", reading = "" },
+  { expression = "ほかえり", reading = "" },
+  { expression = "ほかあり", reading = "" },
+]
+reason = "The middle dots separate four source-listed forms."
+
+[entries."ぽまえ・ぽまい".headword]
+forms = [
+  { expression = "ぽまえ", reading = "" },
+  { expression = "ぽまい", reading = "" },
+]
+reason = "The middle dot separates two source-listed forms."
+
+[entries."めじるしチャーム・めじるしアクセサリー".headword]
+forms = [
+  { expression = "めじるしチャーム", reading = "" },
+  { expression = "めじるしアクセサリー", reading = "" },
+]
+reason = "The middle dot separates two source-listed names."
+
+[entries."割れ・割れ物".headword]
+forms = [
+  { expression = "割れ", reading = "われ" },
+  { expression = "割れ物", reading = "われもの" },
+]
+reason = "The middle dots align two source-listed headwords with their readings."
+
+[entries."ヲチする・ヲチる".headword]
+forms = [
+  { expression = "ヲチする", reading = "" },
+  { expression = "ヲチる", reading = "" },
+]
+reason = "The middle dot separates two source-listed forms."
+
+[entries."24する".headword]
+forms = [
+  { expression = "24する", reading = "つーふぉーする" },
+  { expression = "24する", reading = "つうほうする" },
+]
+reason = "The capsule lists two alternative readings."
+
+# Clear capsule typos are corrected only in the generated headword. The raw capsule remains in the
+# normalized audit record, and every correction is supported by the linked article heading.
+
+[entries."ry)".headword]
+forms = [{ expression = "(ry", reading = "いかりゃく" }]
+reason = "The linked article heading and explanation consistently use (ry; the capsule dropped the opening parenthesis."
+
+[entries."現状から以上です".headword]
+forms = [{ expression = "現場から以上です", reading = "げんばからいじょうです" }]
+reason = "The linked article heading and explanation use 現場, not 現状."
+
+[entries."私、魔法のキキ！こっちは＿＿＿＿＿".headword]
+forms = [{ expression = "私、魔女のキキ！こっちは＿＿＿＿＿", reading = "わたし、まじょのきき！" }]
+reason = "The linked article and the source line from Kiki's Delivery Service use 魔女, not 魔法."
+
+[entries."ナレシ".headword]
+forms = [{ expression = "ナレ死", reading = "" }]
+reason = "The linked article heading and body consistently spell the term ナレ死."
+
+[entries."フラスト".headword]
+forms = [{ expression = "フラスタ", reading = "" }]
+reason = "The linked article heading and body consistently spell the shortening フラスタ."
+
+[entries."わかのみほ".headword]
+forms = [{ expression = "わかんのみほ", reading = "" }]
+reason = "The linked article heading and explanation consistently use わかんのみほ."
+
+[entries."だってマスク".headword]
+forms = [{ expression = "だてマスク", reading = "" }]
+reason = "The linked article heading and explanation consistently use だてマスク."
+
+# The capsule's first link is wrong in each case. These targets are the sections where the linked
+# article actually discusses the capsule term.
+
+[entries."朝ラー".source]
+post_id = 24144
+fragment = "Asara"
+reason = "The capsule points to 嫁ニー; the same article discusses 朝ラー in section Asara."
+
+[entries."入れ違いグッジョブ".source]
+post_id = 20027
+fragment = "Gudjerb"
+reason = "The capsule points to 生まれ持った顔ポーカー; the same article discusses this term in Gudjerb."
+
+[entries."解釈違い".source]
+post_id = 24144
+fragment = "Kaishaku"
+reason = "The capsule points to 百合営業; the same article discusses 解釈違い in Kaishaku."
+
+[entries."ゲルピン".source]
+post_id = 22264
+fragment = "Maru"
+reason = "The capsule points to an unrelated ケチャ section; ゲルピン is discussed in the マル金・マルビ section."
+
+[entries."さつおわ".source]
+post_id = 22264
+fragment = "Satsuowa"
+reason = "The capsule points to 開示だな; the same article discusses さつおわ in Satsuowa."
+
+[entries."サレ夫".source]
+post_id = 22503
+fragment = "Sareo"
+reason = "The capsule points to 鯖読み; the same article discusses され夫 in Sareo."
+
+[entries."ターンエンド".source]
+post_id = 8939
+fragment = "Turnend"
+reason = "The capsule points to the preceding Yu-Gi-Oh phrase; the article discusses ターンエンド in Turnend."
+
+[entries."ダウナス".source]
+remove = true
+reason = "The capsule points to おはぎゃあ, and no captured source article discusses ダウナス."
+
+[entries."ヌン活".source]
+post_id = 2056
+fragment = "Noon"
+reason = "The capsule points to Yガール; the same article discusses ヌン活 in Noon."
+
+[entries."見せ歩き".source]
+post_id = 15725
+fragment = "GaPo"
+reason = "The capsule points to ぬい服; 見せ歩き is discussed in the following ガチャ詰めポーチ section."
+
+[entries."両手に男です".source]
+post_id = 22264
+fragment = "Yurusarehen"
+reason = "The capsule points to ひな？やった！; the phrase is discussed in the ゆるされへん section."
+
+[entries."ブロック大会".source]
+post_id = 6960
+fragment = ""
+reason = "The article's ブロック大会 section has no HTML fragment, so link to the article rather than dead #Block."

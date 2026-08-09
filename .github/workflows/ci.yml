@@ -1,0 +1,38 @@
+name: Continuous Integration
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    name: Ruff, ty, pytest
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Install uv and Python
+        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
+        with:
+          enable-cache: true
+          python-version: "3.12"
+      - name: Install dependencies
+        run: uv sync --frozen
+      - name: Ruff
+        run: |
+          uv run ruff format --check .
+          uv run ruff check .
+      - name: Type check
+        run: uv run ty check
+      - name: pytest
+        run: uv run pytest
