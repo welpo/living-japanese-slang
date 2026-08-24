@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import re
 from typing import Any
-from urllib.parse import unquote, urlparse
+from urllib.parse import parse_qs, unquote, urlparse
 
 from bs4 import BeautifulSoup, NavigableString, Tag
 
@@ -74,6 +74,23 @@ def post_for_url(raw_url: str, posts: list[dict[str, Any]]) -> dict[str, Any] | 
         return next((post for post in posts if post["id"] == post_id), None)
     base = f"{parsed.scheme}://{parsed.netloc}{parsed.path}".rstrip("/")
     return next((post for post in posts if post["link"].rstrip("/") == base), None)
+
+
+def is_preview_url(raw_url: str | None) -> bool:
+    """WordPress ``?preview=true`` links point at unpublished drafts, not live posts."""
+    return bool(raw_url) and "true" in parse_qs(urlparse(raw_url).query).get("preview", [])
+
+
+def canonical_short_url(raw_url: str | None) -> str:
+    """The stable ``?p=<id>`` short link, dropping the preview flag and other query parameters."""
+    if not raw_url:
+        return ""
+    parsed = urlparse(raw_url)
+    post_id = parse_qs(parsed.query).get("p", [""])[0]
+    if not post_id:
+        return raw_url
+    fragment = f"#{unquote(parsed.fragment)}" if parsed.fragment else ""
+    return f"{parsed.scheme}://{parsed.netloc}/?p={post_id}{fragment}"
 
 
 def source_details(raw_url: str, posts: list[dict[str, Any]]) -> dict[str, Any]:
@@ -189,6 +206,17 @@ def parse_capsules(
                     }
                 )
 
+        if is_preview_url(source["url"]):
+            source = {**source, "url": canonical_short_url(source["url"])}
+            anomalies.append(
+                {
+                    "severity": "info",
+                    "code": "source-unpublished",
+                    "expression": expression,
+                    "detail": source["url"],
+                }
+            )
+
         key = f"{expression}\0{reading}"
         record = {
             "id": f"capsule-{candidate_index:04d}-{sha256(key)[:10]}",
@@ -239,6 +267,8 @@ def audit_source_links(records: list[dict[str, Any]], posts: list[dict[str, Any]
     anomalies = []
     for record in records:
         if not record["raw_source_url"] or not record["source"]["url"]:
+            continue
+        if is_preview_url(record["raw_source_url"]):
             continue
         post_id = record["source"]["post_id"]
         if post_id is None or post_id not in posts_by_id:

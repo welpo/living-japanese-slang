@@ -1,6 +1,11 @@
 from bs4 import BeautifulSoup
 
-from living_japanese_slang.parser import dom_text, parse_capsules, split_headword_reading
+from living_japanese_slang.parser import (
+    audit_source_links,
+    dom_text,
+    parse_capsules,
+    split_headword_reading,
+)
 
 
 def test_dom_text_only_breaks_on_br() -> None:
@@ -29,6 +34,17 @@ def test_numbered_fields_are_preserved() -> None:
         ("example", 2),
     ]
     assert not [item for item in anomalies if item["severity"] in {"error", "warning"}]
+
+
+def test_preview_links_publish_but_do_not_block() -> None:
+    html = """<p class="wp-block-paragraph has-background"><strong><a href="https://example.test/?p=25079&preview=true#Duo">DUOる</a></strong><br>
+    <strong>Type:</strong> Verb<br><strong>Meaning:</strong> to grind Duolingo<br><strong>Example:</strong> 毎日DUOってる (I DUO every day)</p>"""
+    records, anomalies, _ = parse_capsules(html, [], {"entries": {}})
+    assert records[0]["expression"] == "DUOる"
+    assert records[0]["source"]["url"] == "https://example.test/?p=25079#Duo"
+    assert records[0]["raw_source_url"] == "https://example.test/?p=25079&preview=true#Duo"
+    assert [(item["severity"], item["code"]) for item in anomalies] == [("info", "source-unpublished")]
+    assert audit_source_links(records, []) == []
 
 
 def test_kimeru_overrides_are_data_driven() -> None:
