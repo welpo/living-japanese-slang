@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import tomllib
 import zipfile
+from collections import Counter
 from datetime import date
 from pathlib import Path
 from typing import Any
@@ -51,6 +52,22 @@ def _canonical_entry(record: dict[str, Any]) -> dict[str, Any]:
     return {key: value for key, value in record.items() if key not in {"raw_html", "raw_text"}}
 
 
+def describe_blocking(blocking: list[dict[str, Any]], path: Path) -> str:
+    parts = []
+    for code, count in Counter(item["code"] for item in blocking).most_common():
+        sources = sorted(
+            {item["detail"].split("#", 1)[0] for item in blocking if item["code"] == code and item.get("detail")}
+        )
+        if len(sources) == 1:
+            where = f" from {sources[0]}"
+        elif sources:
+            where = f" across {len(sources)} sources"
+        else:
+            where = ""
+        parts.append(f"{count}x {code}{where}")
+    return f"Refusing to publish {len(blocking)} blocking anomalies: {'; '.join(parts)}. Inspect {path}"
+
+
 def run(
     *,
     root: Path,
@@ -73,9 +90,7 @@ def run(
     blocking = [item for item in anomalies if item["severity"] in {"error", "warning"}]
     if blocking:
         write_json(output / "anomalies.json", anomalies)
-        raise RuntimeError(
-            f"Refusing to publish with {len(blocking)} parser errors/warnings; inspect {output / 'anomalies.json'}"
-        )
+        raise RuntimeError(describe_blocking(blocking, output / "anomalies.json"))
 
     baseline = read_json(baseline_path) if baseline_path.exists() else []
     state = read_json(state_path) if state_path.exists() else {}
