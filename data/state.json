@@ -1,9 +1,9 @@
 {
-  "dictionary_hash": "68ee2e749f430d607857aa1f47bba0c2824995e612fd10f81b1723ba13c2f913",
-  "feed_hash": "8e8a2dbd3144e74897eb62412487c7adbcf510330c626d065167df78953bf38e",
+  "dictionary_hash": "321690cd29900ce6d54e50c7fda0887d381141d6e56dbade70b4aedf0514d7db",
+  "feed_hash": "875b272a21fc493884b48fa5b88bfbd7e995f980411f349c0f18d53627233bba",
   "overrides_hash": "0d992d4d01497343ff80456d76e7a37a4eae2ae39f3d5e0c0d1b087dbf3d59b3",
-  "output_hash": "8527ae2dcf4f56b8d756dbff53ce2589067d84d3a3896f7d4ea1089f017d76e8",
-  "last_release": "2026-08-09",
-  "entries": 832,
-  "revision": "2026-08-09"
+  "output_hash": "c8d59f49792fd1ad6d23841a1e75b69691a64ae34dc5665f72dfdf40f7de76b2",
+  "last_release": "2026-08-31",
+  "entries": 851,
+  "revision": "2026-08-31"
 }
