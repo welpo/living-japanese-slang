@@ -263,19 +263,25 @@ def parse_capsules(
 def audit_source_links(records: list[dict[str, Any]], posts: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """Check every linked article and fragment captured for the dictionary."""
     posts_by_id = {post["id"]: post for post in posts}
+    preview_posts = {
+        canonical_short_url(record["raw_source_url"]).split("#", 1)[0]
+        for record in records
+        if is_preview_url(record["raw_source_url"])
+    }
     soups: dict[int, BeautifulSoup] = {}
     anomalies = []
     for record in records:
         if not record["raw_source_url"] or not record["source"]["url"]:
             continue
-        if is_preview_url(record["raw_source_url"]):
-            continue
         post_id = record["source"]["post_id"]
         if post_id is None or post_id not in posts_by_id:
+            if is_preview_url(record["raw_source_url"]):
+                continue  # parse_capsules already reports this unpublished source.
+            pending = canonical_short_url(record["raw_source_url"]).split("#", 1)[0] in preview_posts
             anomalies.append(
                 {
-                    "severity": "warning",
-                    "code": "source-post-unresolved",
+                    "severity": "info" if pending else "warning",
+                    "code": "source-unpublished" if pending else "source-post-unresolved",
                     "expression": record["expression"],
                     "detail": record["source"]["url"],
                 }

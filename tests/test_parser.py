@@ -47,6 +47,43 @@ def test_preview_links_publish_but_do_not_block() -> None:
     assert audit_source_links(records, []) == []
 
 
+def test_plain_links_share_an_unpublished_posts_preview_status() -> None:
+    html = """<p class="wp-block-paragraph has-background"><a href="https://example.test/?p=25480&amp;preview=true#One">一</a><br>
+    Type: Noun<br>Meaning: one<br>Example: 一</p>
+    <p class="wp-block-paragraph has-background"><a href="https://example.test/?p=25480#Two">二</a><br>
+    Type: Noun<br>Meaning: two<br>Example: 二</p>
+    <p class="wp-block-paragraph has-background"><a href="https://example.test/?p=999#Three">三</a><br>
+    Type: Noun<br>Meaning: three<br>Example: 三</p>"""
+    records, parse_anomalies, _ = parse_capsules(html, [], {"entries": {}})
+    audit_anomalies = audit_source_links(records, [])
+
+    assert [(item["expression"], item["severity"], item["code"]) for item in parse_anomalies + audit_anomalies] == [
+        ("一", "info", "source-unpublished"),
+        ("二", "info", "source-unpublished"),
+        ("三", "warning", "source-post-unresolved"),
+    ]
+    assert records[1]["source"]["url"] == "https://example.test/?p=25480#Two"
+
+
+def test_published_preview_link_has_its_fragment_checked() -> None:
+    html = """<p class="wp-block-paragraph has-background"><a href="https://example.test/?p=25480&amp;preview=true#Missing">語</a><br>
+    Type: Noun<br>Meaning: word<br>Example: 語</p>"""
+    posts = [
+        {
+            "id": 25480,
+            "link": "https://example.test/2026/09/article/",
+            "content": {"rendered": '<h2 id="Present">Article</h2>'},
+        }
+    ]
+    records, parse_anomalies, _ = parse_capsules(html, posts, {"entries": {}})
+
+    assert parse_anomalies == []
+    assert records[0]["source"]["url"] == "https://example.test/2026/09/article/#Missing"
+    assert [(item["severity"], item["code"]) for item in audit_source_links(records, posts)] == [
+        ("warning", "source-fragment-not-found")
+    ]
+
+
 def test_kimeru_overrides_are_data_driven() -> None:
     html = """<p class="wp-block-paragraph has-background"><strong><a href="https://example.test/?p=99#Wrong">キメる</a></strong><br>
     <strong>Type:</strong> Verb<br><strong>Example:</strong> To get high<br><strong>Example:</strong> 薬をキメた (They got high)</p>"""
